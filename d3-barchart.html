@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <style>
+        body {
+            background-color: #F5F5F5;
+        }
+        .barchart-header {
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .barchart-paragraph {
+            font-family: sans-serif;
+            margin-bottom: 25px;
+        }
+
+        .button {
+            margin-bottom: 60px;
+            margin-left: 10px;
+        }
+
+        .barchart-description {
+            font-size: 10px;
+            font-style: italic;
+        }
+        .barchart-image {
+            max-height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="row text-center">
+        <div class="col-sm-6 col-xs-12">
+            <h1 class="barchart-header">Barchart with SVG</h1>
+            <p class="barchart-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit asperiores velit quia quam. Culpa amet, doloribus ut impedit quis dolorum quia libero porro, ad numquam! Tenetur quidem labore vero autem, totam iusto, laudantium placeat asperiores,
+                sunt ipsa porro explicabo sequi necessitatibus eius dolor natus. Delectus beatae, quod quam soluta labore.</p>
+            <img class="barchart-image xs-remove" src="media/donald.png" alt="Donald Duck"> 
+            <button class="btn btn-info btn-hover button" onclick="newDataset()">New Dataset</button>
+        </div>
+        <div class="col-sm-6 col-xs-12 text-center">
+            <div id="svg-goes-here">
+            </div>
+            <p class="barchart-description">Small description of the barchart</p>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        let h = 500;
+        let w = 500;
+        let barPadding = 1;
+
+        let dataSet = [];
+
+        function newDataset() {
+            d3.select("#svg-goes-here").html("");
+            let dataSet = [];
+            for (i = 0; i < 20; i++) {
+                let randomNumber = Math.floor((Math.random() * 1000) + 1);
+                dataSet.push(randomNumber);
+
+            }
+            
+            let scale = d3.scale.linear()
+            .domain([0, 999])
+            .range([0, 500]); 
+
+            let colWidth = w / dataSet.length;
+
+            let myBarChart = d3.select("#svg-goes-here")
+                .append("svg")
+                .attr("height", h)
+                .attr("width", w)
+
+            myBarChart.selectAll("rect")
+                .data(dataSet)
+                .enter()
+                .append("rect")
+                .attr("x", function(d, i) {
+                    return i * colWidth
+                })
+                .attr("y", function(d) {
+                    return h - scale(d);
+                })
+                .attr("height", function(d) {
+                    return scale(d);
+                })
+                .attr("width", colWidth - barPadding)
+                .attr("fill", "#111E6C")
+
+            myBarChart.selectAll("text")
+                .data(dataSet)
+                .enter()
+                .append("text")
+                .text(function(d) {
+                    return d;
+                })
+                .attr("text-anchor", "middle")
+                .attr("x", function(d, i) {
+                    return i * colWidth + colWidth / 2;
+                })
+                .attr("y", function(d) {
+                    return h - scale(d) + 14;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "11px")
+                .attr("fill", "white")
+        }
+        newDataset()
+    </script>
+</body>
+
+</html>

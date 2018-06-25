@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+            text-transform: uppercase; 
+            font-size: 2rem;
+            padding-left: 40px;
+            font-family: sans-serif;
+        }
+        .div {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div"><a href="javascript:dc.filterAll(); dc.renderAll();"><strong>Reset All by clicking here</strong></a></div>
+    <div id="chart-goes-here"></div>
+    <div id="pie-chart-goes-here"></div>
+    <script>
+        let transactionsData = [
+            { "name": "Tom", "store": "ACME", "state": "NY", "spend": 100 },
+            { "name": "Tom", "store": "Big Co", "state": "NY", "spend": 200 },
+            { "name": "Bob", "store": "ACME", "state": "FL", "spend": 150 },
+            { "name": "Bob", "store": "ACME", "state": "NY", "spend": 200 },
+            { "name": "Bob", "store": "Big Co", "state": "FL", "spend": 75 },
+            { "name": "Bob", "store": "Big Co", "state": "NY", "spend": 50 },
+            { "name": "Alice", "store": "ACME", "state": "FL", "spend": 200 },
+            { "name": "Alice", "store": "Big Co", "state": "NY", "spend": 350 },
+        ];
+        
+        let ndx = crossfilter(transactionsData); 
+        
+        let nameDim = ndx.dimension(dc.pluck("name")); 
+        let stateDim = ndx.dimension(dc.pluck("state")); 
+        
+        let totalSpendPerPerson = nameDim.group().reduceSum(dc.pluck("spend")); 
+        let totalSpendPerState = stateDim.group().reduceSum(dc.pluck("spend")); 
+        
+        let personSpendChart = dc.barChart("#chart-goes-here"); 
+        let stateSpendChart = dc.pieChart("#pie-chart-goes-here"); 
+        
+        personSpendChart
+            .width(600)
+            .height(300)
+            .margins({top: 10, right: 50, bottom: 30, left: 50})
+            .dimension(nameDim)
+            .group(totalSpendPerPerson)
+            .x(d3.scale.ordinal())
+            .xUnits(dc.units.ordinal)
+            .xAxisLabel("Person")
+            .yAxis().ticks(4); 
+        
+        stateSpendChart 
+            .height(500)
+            .radius(200)
+            .dimension(stateDim)
+            .group(totalSpendPerState); 
+        
+        // create a apend by store bar chart through these five steps:
+        
+        // 1. create the div and id in the html
+        // 2. create a new dimension
+        // 3. create a new group
+        // 4. link the chart to the div
+        // 5. define the chart
+        
+        // create extra records/objects
+        
+        dc.renderAll(); 
+        
+    </script>
+</body>
+
+</html>
