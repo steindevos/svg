@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.8/dc.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+    <script src="js/graph.js"></script>
+    <title>Document</title>
+    <style>
+        header {
+            min-height: 50px;
+            background-color: blue;
+        }
+
+        .header-title {
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+        }
+
+        .header-reset-link {
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-size: 2rem;
+
+        }
+
+        .header-reset-link a {
+            text-decoration: none;
+            color: #fafafa;
+        }
+
+        .navigation-section {
+            margin-top: 70px;
+            background-color: #E8E8E8;
+            height: 200vh;
+        }
+
+        .navigation-bar {
+            margin-top: 50px;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            padding: 0;
+            margin-bottom: 10px;
+            list-style-type: none;
+        }
+
+        .graph-section {
+            margin-left: 260px;
+        }
+
+        .bar-graph {
+            margin-top: 90px;
+            border-bottom: dotted 1px blue;
+        }
+
+        .chart-description {
+            text-align: left;
+            font-family: sans-serif;
+
+        }
+
+        .chart-description-header {
+            text-transform: uppercase;
+        }
+
+        .line-chart {
+            margin-top: 20px;
+        }
+
+        #line-chart {
+            margin-top: 20px;
+            border-bottom: dotted 1px blue;
+            padding-bottom: 30px;
+        }
+
+        g .axis.x text {
+            transform: rotate(-45deg);
+            text-anchor: end !important;
+        }
+
+        .pie-chart {
+            margin-top: 20px;
+            border-bottom: dotted 1px blue;
+        }
+
+        .average-chart {
+            margin-top: 20px;
+            border-bottom: dotted 1px blue;
+        }
+
+        @media (max-width: 992px) {
+            
+           header {
+               position: relative;
+           }
+
+            ul {
+                padding-bottom: 35px;
+            }
+            
+            .navigation-section {
+                margin-top: 143px;
+            }
+
+            .graph-section {
+                margin: 0;
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="nav navbar-fixed-top container-fluid">
+        <div class="row text-center">
+            <div class="header-reset-link col-sm-1">
+                <a href="javascript:dc.filterAll(); dc.renderAll();"><strong>Reset all</strong></a></div>
+            <h1 class="header-title">d3 - dc - crossfilter - json</h1>
+        </div>
+    </header>
+
+    <section class="container-fluid row">
+        <div class="navigation-section navbar-fixed-top hidden-xs hidden-sm col-md-2">
+            <div class="navigation-bar">
+                <ul>
+                    <li><a href="#spend-chart">Total spend per person</a></li>
+                    <li><a href="#line-chart">Total spend over time</a></li>
+                    <li><a href="#pie-chart">Total spend per state and store</a></li>
+                    <li><a href="#average-chart">Averages</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-10 graph-section">
+            <div class="row bar-graph text-center">
+                <div class="col-sm-6" id="spend-chart"></div>
+                <div class="col-sm-6 chart-description">
+                    <h2 class="chart-description-header">Total spend per person</h2>
+                    <p class="chart-description-par">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, error sequi neque ab, quae natus libero culpa quis, minima fuga quam. Asperiores sit pariatur sapiente incidunt aliquam dolore mollitia, exercitationem laborum. Accusamus
+                        dolorum architecto voluptas, quas libero nobis beatae rerum autem dolore assumenda reprehenderit minus ipsum natus doloremque unde, eaque repudiandae ad quaerat similique nemo pariatur voluptatibus debitis nihil? Consequuntur quae
+                        sint aliquam iste! A porro cum harum odio quas quia non cupiditate, eos atque consectetur enim voluptas, animi quaerat labore autem ad! Delectus quae assumenda modi pariatur sed, sint necessitatibus nostrum quod voluptas vel autem,
+                        iure dignissimos voluptates ut saepe repellendus tenetur a quia! Reiciendis maxime alias doloremque inventore commodi tempore quam ratione quidem ipsa consequatur dolore rem animi, rerum voluptatem reprehenderit. Ea, facere. Iste
+                        doloremque non natus minus aperiam, quibusdam, unde tenetur aspernatur tempora atque placeat voluptatem ipsum labore enim est omnis velit quia? Architecto magni reprehenderit cum.</p>
+                </div>
+            </div>
+
+            <div class="row text-center line-chart">
+                <h2 class="chart-description-header">total spend over time</h2>
+                <div id="line-chart" class="col-sm-12">
+
+                </div>
+            </div>
+
+            <div class="row text-center pie-chart">
+                <div class="col-sm-4" id="pie-chart-state">
+
+                </div>
+                <div class="col-sm-4">
+                    <h2 class="chart-description-header">total spend per state and store</h2>
+                    <p class="chart-description-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique tempora, placeat, nulla eveniet porro id. Repellat totam ducimus nam molestias. Doloribus nobis, quaerat fugit magnam perferendis sit possimus adipisci, obcaecati
+                        ipsam aut sapiente recusandae soluta, quos reprehenderit velit veniam vero neque voluptatem incidunt ut, pariatur nesciunt aperiam. Porro nihil iusto libero harum temporibus ipsam quis eveniet, possimus officia numquam natus id
+                        dicta, cum debitis aspernatur. Quae dolore, facilis ab dicta debitis sequi modi sit beatae, accusantium consequuntur expedita unde assumenda omnis natus impedit tenetur est nulla molestias rerum sint? Suscipit impedit temporibus
+                        consequatur similique odio illo nemo libero, nobis nesciunt ullam optio neque non fuga atque laborum facere culpa fugiat.</p>
+                </div>
+                <div class="col-sm-4" id="pie-chart">
+
+                </div>
+            </div>
+
+            <div class="row text-center average-chart">
+                <div id="average-chart" class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6">
+                    <h2 class="chart-description-header">averages</h2>
+                    <p class="chart-description-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique tempora, placeat, nulla eveniet porro id. Repellat totam ducimus nam molestias. Doloribus nobis, quaerat fugit magnam perferendis sit possimus adipisci, obcaecati
+                        ipsam aut sapiente recusandae soluta, quos reprehenderit velit veniam vero neque voluptatem incidunt ut, pariatur nesciunt aperiam. Porro nihil iusto libero harum temporibus ipsam quis eveniet, possimus officia numquam natus id
+                        dicta, cum debitis aspernatur. Quae dolore, facilis ab dicta debitis sequi modi sit beatae, accusantium consequuntur expedita unde assumenda omnis natus impedit tenetur est nulla molestias rerum sint? Suscipit impedit temporibus
+                        consequatur similique odio illo nemo libero, nobis nesciunt ullam optio neque non fuga atque laborum</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="container-fluid">
+        <div class="row"></div>
+
+    </footer>
+
+
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+</html>
