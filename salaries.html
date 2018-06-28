@@ -13,19 +13,27 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
     <script src="js/graph_template_js.js"></script>
     <title>Document</title>
+    <style>
+        .first-row {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
-<section class="container-fluid">
-    <div class="row">
-        <div id="chart-goes-here">
-        <div id="second-chart-goes-here">
+    <section class="container-fluid">
+        <div class="row text-center">
+            <div id="select-rank"></div>
         </div>
-            
+        <div class="row first-row">
+            <div class="col-md-6 col-sm-12" id="chart-goes-here"></div>
+            <div class="col-md-6 col-sm-12" id="second-chart-goes-here"></div>
+            <div class="col-md-4 col-sm-12" id="fourth-chart-here"></div>
+            <div class="col-md-8 col-sm-12" id="scatterplot-here"></div>
         </div>
-    </div>
-    
-</section>
+
+
+    </section>
 
 
 
